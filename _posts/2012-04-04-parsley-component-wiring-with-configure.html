@@ -1,0 +1,127 @@
+---
+layout: post
+title: Parsley Component Wiring with Configure
+categories:
+- Flex
+- Parsley
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  has_been_twittered: 'yes'
+author:
+  login: admin
+  email: francois.de.campredon@gmail.com
+  display_name: François de Campredon
+  first_name: François
+  last_name: de Campredon
+---
+<p>There are several ways to connect your views with the context using Parsley. The good practices would tell us to avoid view directly managed by the Parsley context and to rely on view wiring method like the "FastInject" tag .<br />
+Since Parsley 2.4 , a wonderful way of achieving view wiring, has been added to the framework; we can now add child tag to the "Configure" tag and then the framework will only manage object declared in this component :</p>
+{% highlight mxml %}
+<parsley:Configure>
+	<local:ViewPM id="pm" />
+</parsley:Configure>
+{% endhighlight %}
+<p>By doing that the framework will add the pm declared this way as a DynamicObject into the context, and so, first we avoid to keep unused pm into our context (since this pm will be removed from the context when the view is removed from stage), and then, we lighten our configuration class from view pm.</p>
+<p>This great feature has a little flaw. It can produce some unexpected behavior when it is combined with view states and the "includeIn/excludeFrom" Flex 4 feature. Let's consider a little application for example.</p>
+<p>First the  main application class :</p>
+{% highlight mxml %}
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+               xmlns:parsley="http://www.spicefactory.org/parsley"
+               minWidth="955" minHeight="600" xmlns:local="*" >
+	<fx:Script>
+	<![CDATA[
+	   import spark.events.IndexChangeEvent;
+ 
+	   protected function tabbar_changeHandler(event:IndexChangeEvent):void
+	   {
+	       currentState = event.newIndex==0?"view1":"view2";
+	   }
+	]]>
+	</fx:Script>
+	<fx:Declarations>
+		<parsley:ContextBuilder />
+	</fx:Declarations>
+	<s:states>
+		<s:State name="view1" />
+		<s:State name="view2" />
+	</s:states>
+	<s:layout>
+		<s:VerticalLayout horizontalAlign="center" verticalAlign="middle" />
+	</s:layout>
+	<s:TabBar change="tabbar_changeHandler(event)">
+		<s:dataProvider>
+			<s:ArrayList>
+				<fx:String>View 1</fx:String>
+				<fx:String>View 2</fx:String>
+			</s:ArrayList>
+		</s:dataProvider>
+	</s:TabBar>
+	<local:View1 includeIn="view1"  />
+	<local:View2 includeIn="view2"  />
+</s:Application>
+{% endhighlight %}
+<p>As you can see this class contains 2 views and those views will be included/excluded from the display list by switching the current state of the application.</p>
+<p>Let's now consider the 2 views and their pm :</p>
+<p>View1.mxml :</p>
+{% highlight mxml %}
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx" 
+          xmlns:parsley="http://www.spicefactory.org/parsley" xmlns:local="*" >
+	<fx:Declarations>
+		<parsley:Configure>
+			<local:ViewPM id="pm" />
+		</parsley:Configure>
+	</fx:Declarations>
+	<s:Label text="I'm the View 1" />
+	<s:TextInput  text="@{pm.sharedString}"/>
+</s:VGroup>
+{% endhighlight %}
+<p>View2.mxml :</p>
+{% highlight mxml %}
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+          xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx" 
+          xmlns:parsley="http://www.spicefactory.org/parsley" xmlns:local="*" >
+	<fx:Declarations>
+		<parsley:Configure>
+			<local:ViewPM id="pm" />
+		</parsley:Configure>
+	</fx:Declarations>
+	<s:Label text="I'm the View 2" />
+	<s:TextInput  text="@{pm.sharedString}"/>
+</s:VGroup>
+{% endhighlight %}
+<p>And the associated PM :</p>
+<div>
+{% highlight actionscript %}
+package
+{
+	public class ViewPM
+	{
+		[PublishSubscribe(objectId="sharedString")]
+		[Bindable]
+		public var sharedString:String;
+	}
+}
+{% endhighlight %}
+<p>Our view are pretty simple, the TextInput text property is dual binded to the sharedString property on the pm and this property is taged with the metadata [PublishSubscribe].<br />
+The expected behavior would be : "when we modify the text in the TextInput and then switch the displayed view, the text would stay the same".</p>
+<p>Now if you would try this little example, enter a text, switch to view 2, and switch  back to view 1; you would see the text has disappeared !<br />
+The reason is pretty simple, with the "Configure"  tag when the view is removed from stage, your pm (a dynamic object) is removed from the context.<br />
+However Flex put in cache excluded views, so when you switch back from view2 to view1, the View1 pm is not managed by the context anymore, and all the properties injected by the context have been already cleaned (here the sharedString property).</p>
+<p>There are 3 ways to fix that kind of issue:</p>
+<ul>
+<li>First, by setting "itemDestructionPolicy" to "auto" on the view declaration, you prevent Flex from caching the View1 when it's removed from the displaylist. So the next time you switch to view1, it's recreated, and the "Configure" tag is triggered again. However this way of doing things could bring some serious performance issues. Indeed by preventing view caching, you force Flex to recreate the complete component each time you switch the current state.</li>
+<li>You can also set the "autoRemove" property  to "false" on the "Configure" tag, the pm is not removed from parsley context anymore. However that also can lead to numerous problem, like memory leak.</li>
+<li>Finally the most common way of solving this problem is to set the "reuse" property to "true" on the "Configure" tag, here our pm is still removed from the context when the view is removed from stage, but the pm is added again in the context when the view is readded to stage.</li>
+</ul>

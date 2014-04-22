@@ -1,0 +1,45 @@
+---
+layout: post
+title: Parsley and AS3Commons AutoConfiguration
+categories:
+- AS3Common
+- Flex
+- Parsley
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  has_been_twittered: 'yes'
+author:
+  login: admin
+  email: francois.de.campredon@gmail.com
+  display_name: François de Campredon
+  first_name: François
+  last_name: de Campredon
+---
+<p>Combining <a href="http://www.as3commons.org/as3-commons-bytecode/">AS3Commons bytecode</a> and <a href="http://www.spicefactory.org/parsley/">Parsley</a> can produce very interesting concepts that greatly help in developing Flex application.</p>
+<p>Playing a little with this 2 libraries, I found an interesting way of replacing configuration file  when building a Parsley context :</p>
+<p>By searching class with an ObjectDefinition Metadata in the application loaderInfo, I automatically detect class that should be included in parsley context, and so avoid unnecessary configuration file.</p>
+<p>Here is a <a href="http://francois.de-campredon.fr/public/ParsleyAutoConfig/HelloWorld.html">sample application</a> ( it is simply the parsley sample application with  that configuration mechanism), and here are the library <a href="http://francois.de-campredon.fr/public/ParsleyAutoConfig/ParsleyAS3Common.zip">sources</a>.</p>
+<p>We first add  the AutoConfig class to the context builder : </p>
+{% highlight mxml %}
+<parsley:Configure>
+	<local:ViewPM id="pm" />
+</parsley:Configure>
+{% endhighlight %}
+<p>And then, we do not need any configuration file anymore, only an ObjectDefinition Metadata on top of class that should be managed by the Parsley Context :</p>
+{% highlight actionscript %}
+package org.spicefactory.parsley.sample.helloworld
+{
+	[ObjectDefinition(id="sharedModel")]
+	public class SharedModel
+	{
+		[Bindable]
+		public var slogan:String =
+			"Parsley is simple, powerful and proven in the enterprise.";
+	}
+}
+{% endhighlight %}
+<p>&nbsp;</p>

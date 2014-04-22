@@ -1,0 +1,140 @@
+---
+layout: post
+title: Working with Zend_AMF, Doctrine 2 and Flex
+categories:
+- Flex
+- PHP
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  has_been_twittered: 'yes'
+  _edit_last: '1'
+author:
+  login: admin
+  email: francois.de.campredon@gmail.com
+  display_name: François de Campredon
+  first_name: François
+  last_name: de Campredon
+---
+<p>I'm actually  working with <a title="Zend Amf" href="http://framework.zend.com/manual/fr/zend.amf.html">Zend_AMF</a> and <a title="Doctrine" href="http://www.doctrine-project.org/">Doctrine 2</a> to create services for a flex application, and doing so i'm facing number of annoying problems :</p>
+<ul>
+<li>Firstly Zend serializes only public properties on object transmitted to flex, and Doctrine 2 Entity must declare their properties as protected and access them through magic functions, or accessor, to ensure proxy loading.</li>
+<li>Zend automatically casts date as Zend_Date, and Doctrine can work only with php DateTime object.</li>
+</ul>
+<p>The solution I found is to create an AbstractEntity that handles the transition between Zend_AMF and Doctrine 2, and here is the result :</p>
+{% highlight php %}
+<?php 
+
+namespace entities;
+
+use Doctrine\ORM\PersistentCollection;
+
+require_once 'Zend/Date.php';
+
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Iterator;
+use DateTime;
+use Exception;
+use ReflectionClass;
+
+class AbstractEntity implements Iterator {
+
+	protected $_propertyList;
+
+	protected $_position = 0;
+
+	protected function generatePropertyList() {
+		$entityManager = $GLOBALS['em'];
+		$classInfo = $entityManager->getMetadataFactory()
+				->getMetadataFor(get_class($this));
+		$fieldMappings = $classInfo->fieldMappings;
+		$associationMappings=$classInfo->associationMappings;
+		$this->_propertyList = array();
+		foreach($fieldMappings as $fieldMapping) {
+			$this->_propertyList[] = $fieldMapping['fieldName'];
+		}
+		foreach($associationMappings as $fieldMapping) {
+			$this->_propertyList[] = $fieldMapping['fieldName'];
+		}
+	}
+
+	//Iterator implementation
+	public function current () {
+		if($this->_propertyList == null)
+			$this->generatePropertyList();
+		return $this->__get($this->_propertyList[$this->_position]);
+	}
+
+	public function next () {
+		if($this->_propertyList == null)
+			$this->generatePropertyList();
+		$this->_position++;
+	}
+
+	public function key () {
+		if($this->_propertyList == null)
+			$this->generatePropertyList();
+		return $this->_propertyList[$this->_position];
+	}
+
+	public function valid () {
+		if($this->_propertyList == null)
+			$this->generatePropertyList();
+		return isset($this->_propertyList[$this->_position]);
+	}
+
+	public function rewind () {
+		if($this->_propertyList == null)
+			$this->generatePropertyList();
+		$this->_position = 0;
+	}
+
+	//magic get and set
+	public function __get($name)
+	{
+	  	if(property_exists($this, $name)){
+	    	$propertyValue=  $this->$name;
+	    	if($propertyValue instanceof PersistentCollection) {
+	    		$propertyValue = $propertyValue->toArray();
+	    	}
+	    	return $propertyValue;
+	  	}
+	  	else
+	  		throw new Exception("Property ".$name.
+				" does not exist on class".get_class($this));
+	}
+
+	public function __set($name,$value)
+	{
+		if(property_exists($this, $name)){
+			if($value instanceof Zend_Date) {
+				$propertyValue = new DateTime();
+				$propertyValue->setTimestamp($value->getTimestamp());
+			}
+			else {
+				$propertyValue = $value;
+			}
+			$this->$name = $propertyValue;
+		}
+		else
+	  		throw new Exception("Property ".$name.
+				" does not exist on class".get_class($this));
+	}
+}
+{% endhighlight %}
+<p>&nbsp;</p>
+<p>Unfortunately I also had to modify a little the Zend_AMF_Parse_Amf3_Serializer class. On the writeObject function at line 500 I replaced :</p>
+{% highlight php %}
+$this->writeTypeMarker($object->$key);
+{% endhighlight %}
+<p>by</p>
+{% highlight php %}
+ $propertyValue = $object->$key;
+ $this->writeTypeMarker($propertyValue);
+{% endhighlight %}
+<p>By implementing Iterator, i allow Zend_AMF to get information about the properties of my entities, and still I allow proxies to do their job.<br />
+The interesting part about this implementation lays in the fact that they won't be any unnecessary processing to serialize proxy class, and that I can for exemple set manually the _propertyList value to choose which properties should be serialized and which should be not (I can for example omit password related properties on a User entity).<br />
+However I guess their should be a better way to do that, and I hope in the future that Zend_AMF or an other PHP-Flex connector will improve at the point where accessor would be supported.</p>
+<p>&nbsp;</p>

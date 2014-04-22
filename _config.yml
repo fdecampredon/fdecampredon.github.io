@@ -1,0 +1,5 @@
+name: François de Campredon
+permalink: /:year/:month/:title/
+pygments: true
+markdown: redcarpet
+excerpt_separator: '#&&&#' 

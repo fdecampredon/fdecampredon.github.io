@@ -1,0 +1,28 @@
+---
+layout: post
+title: 'Playing with Spark DataGrid part 1 : MultiSorting'
+categories:
+- Components
+- Flex
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  has_been_twittered: 'yes'
+  _wp_old_slug: ''
+  _edit_last: '1'
+author:
+  login: admin
+  email: francois.de.campredon@gmail.com
+  display_name: François de Campredon
+  first_name: François
+  last_name: de Campredon
+---
+<p>Spark DataGrid is one of the best desktop component of the new flex hero, for thoses who struggled in the past trying to extend the old mx DataGrid or AdvancedDataGrid (like me), they will be happy to have finally a spark component easy to extend or to skin replacing it.</p>
+<p>However Spark DataGrid is mainly a replacement for DataGrid, not AdvancedDatagrid, and so some features will miss to use the Spark DataGrid in some projects.</p>
+<p>The good thing with spark DataGrid is about the Spark Architecture. By separating skin and logic, spark components are really easier to extend than the old mx components, I decided to try to implement some of this features on top of the new Spark DataGrid.</p>
+<p>The first one is MultiSorting, and here is the result : <a href="http://francois.de-campredon.fr/public/AdvancedSparkDataGrid/MultiSort/">MultiSortDatagrid</a></p>
+<p>That DataGrid will apply visuals indicators for the initial sorting set on the dataProvider, track changes on the sort property of the dataProvider and apply visuals indicators, and allow user to use multisorting.</p>
+<p>You can find the source for the MultiSort DataGrid <a href="http://francois.de-campredon.fr/public/AdvancedSparkDataGrid/AdvancedSparkDatagrid.zip">here</a>.</p>
+<p>note : that component is not tested and can contain bugs</p>

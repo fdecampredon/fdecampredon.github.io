@@ -1,0 +1,109 @@
+---
+layout: post
+title: Presentation Model - Parsley - Decoupled Binding
+categories:
+- Flex
+- Parsley
+tags: []
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  _wp_old_slug: ''
+author:
+  login: admin
+  email: francois.de.campredon@gmail.com
+  display_name: François de Campredon
+  first_name: François
+  last_name: de Campredon
+---
+<p>Since version 2.3 <a href="http://www.spicefactory.org/parsley/">Parsley</a> has introduced the <a href="http://www.spicefactory.org/parsley/docs/2.4/manual/bindings.php">Decoupled Binding</a>.<br />
+This feature has nothing new, and some framework  (like <a href="http://www.graniteds.org/">Tide</a>) has already similar concept since a long time, but in Parsley the add of a more lightweight and dynamic way to share data and states greatly ease the use of the Framework.</p>
+<p>In my point of view, with the <a href="http://martinfowler.com/eaaDev/PresentationModel.html">Presentation Model</a> pattern, Decoupled Binding should be mainly used in two cases :</p>
+<ul>
+<li>Avoiding a direct reference to the domain layer in the presentation layer.</li>
+<li>Sharing states and data between your PM Class without implementing any unnecessary logic.</li>
+</ul>
+<p>To illustrate my purpose, let's get a look to this <a href="/public/decoupled-binding/">sample application </a> .</p>
+<p>First let's watch the Configuration used for Parsley context :</p>
+{% highlight mxml %}
+<Objects
+	xmlns:fx="http://ns.adobe.com/mxml/2009"
+	xmlns:s="library://ns.adobe.com/flex/spark"
+	xmlns="http://www.spicefactory.org/parsley"
+	xmlns:domain="com.deCampredon.sampleContact.domain.*"
+	xmlns:presentation="com.deCampredon.sampleContact.presentation.*"
+	xmlns:services="com.deCampredon.sampleContact.services.*">
+	<fx:Script>
+	<![CDATA[
+        import com.deCampredon.sampleContact.controls.commands.GetContactsCommand;
+        import com.deCampredon.sampleContact.controls.commands.UpdateContactCommand;
+        import com.deCampredon.sampleContact.controls.events.ContactEvent;
+	]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Services -->
+		<services:ContactService />
+		<!-- Controls -->
+		<DynamicCommand type="{GetContactsCommand}"
+                        selector="{ContactEvent.GET_CONTACTS}" />
+		<DynamicCommand type="{UpdateContactCommand}"
+                        selector="{ContactEvent.UPDATE_CONTACT}"  />
+		<!-- Domain -->
+		<domain:ContactDomain />
+		<!-- PM -->
+		<presentation:ContactListPM />
+		<presentation:ContactFormPM />
+		<presentation:MessageBoardPM />
+	</fx:Declarations>
+</Objects>
+{% endhighlight %}
+<p>The ContactService is a fake service simulating asynchronous call, and the GetContactsCommand, and UpdateContactCommand are two commands executing crud operations (here just 'read' and 'update' in fact).</p>
+<p>The first point interesting here is how the data of the ContactDomain Class will be shared in the application :</p>
+{% highlight actionscript %}
+package com.deCampredon.sampleContact.domain
+{
+	import mx.collections.IList;
+
+	[Bindable]
+	public class ContactDomain
+	{
+		//The Domain object, publish the contact list used in the application
+
+		[Publish(objectId="contactList")]
+		public var contactList:IList;
+
+	}
+}
+{% endhighlight %}
+
+<p>The contactList is published in the application with decoupled binding, then each PM which require the data will use a property taged with the [Subscribe] metadata.<br />
+That allows to avoid dependency between PM and domain object, and when it goes to testing the application, you will be able to test your PM Class without any need of mock objects just by injecting a fake contact list in them.</p>
+<p>The second point that should be observed is how  by using the <code>[PublishSubscribe]</code> metadata the ContactListPM and the ContactFormPM "share" the <code>selectedContact</code> property.</p>
+<p>Finely on the ContactFormPM side we can see on the setter of that property :<br /></p>
+{% highlight actionscript %}
+public function set selectedContact(value:Contact):void {
+    if(_selectedContact == value)
+        return;
+     if(_selectedContact) {
+         if(hasUnsavedChange) {
+             _nextSelectedContact = value;
+             showUnSavedChangeWarning = true;
+             return;
+         }
+         _selectedContact.removeEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+                  onPropertyChange);
+     }
+     _selectedContact = value;
+     if(_selectedContact) {
+         _savedContact = _selectedContact.clone();
+         _selectedContact.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE,
+                  onPropertyChange);
+     }
+     hasUnsavedChange = false;
+     dispatchEvent(new Event("selectedContactChanged"));
+}
+{% endhighlight %}
+<p>As you can see the logic preventing the user from loosing unsaved changed is easily handled by the the ContactFormPM Class, which would have result in long exchange of events, or by direct coupling between PM without the use of decoupled binding.</p>
+<p>note : In a real development, do not forget to make usage of scope, especially in modular application. Decoupled Binding is often used with objectId, and the large number of published properties could result in id conflicts.</p>
