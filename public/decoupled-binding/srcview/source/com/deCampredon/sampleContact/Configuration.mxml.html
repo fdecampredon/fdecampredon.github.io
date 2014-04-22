@@ -1,0 +1,37 @@
+<!-- saved from url=(0014)about:internet -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Configuration.mxml</title>
+<link rel="stylesheet" type="text/css" href="../../../../SourceStyles.css"/>
+</head>
+
+<body><pre><span class="MXMLComponent_Tag">&lt;Objects</span><span class="MXMLDefault_Text"> 
+    xmlns:fx="</span><span class="MXMLString">http://ns.adobe.com/mxml/2009</span><span class="MXMLDefault_Text">"
+    xmlns:s="</span><span class="MXMLString">library://ns.adobe.com/flex/spark</span><span class="MXMLDefault_Text">" 
+    xmlns="</span><span class="MXMLString">http://www.spicefactory.org/parsley</span><span class="MXMLDefault_Text">" xmlns:domain="</span><span class="MXMLString">com.deCampredon.sampleContact.domain.*</span><span class="MXMLDefault_Text">" xmlns:presentation="</span><span class="MXMLString">com.deCampredon.sampleContact.presentation.*</span><span class="MXMLDefault_Text">" xmlns:services="</span><span class="MXMLString">com.deCampredon.sampleContact.services.*</span><span class="MXMLDefault_Text">"</span><span class="MXMLComponent_Tag">&gt;</span>
+    <span class="MXMLSpecial_Tag">&lt;fx:Script&gt;</span>
+        &lt;![CDATA[
+            <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">com</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">deCampredon</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">sampleContact</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">controls</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">commands</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">GetContactsCommand</span>;
+            <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">com</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">deCampredon</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">sampleContact</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">controls</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">commands</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">UpdateContactCommand</span>;
+            <span class="ActionScriptReserved">import</span> <span class="ActionScriptDefault_Text">com</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">deCampredon</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">sampleContact</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">controls</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">events</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">ContactEvent</span>;
+        <span class="ActionScriptBracket/Brace">]</span><span class="ActionScriptBracket/Brace">]</span><span class="ActionScriptOperator">&gt;</span>
+    <span class="MXMLSpecial_Tag">&lt;/fx:Script&gt;</span>
+    <span class="MXMLSpecial_Tag">&lt;fx:Declarations&gt;</span>
+        <span class="MXMLComment">&lt;!--</span><span class="MXMLComment"> Services </span><span class="MXMLComment">--&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;services:ContactService</span><span class="MXMLDefault_Text"> </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComment">&lt;!--</span><span class="MXMLComment"> Controls </span><span class="MXMLComment">--&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;DynamicCommand</span><span class="MXMLDefault_Text"> type="</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">GetContactsCommand</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">" 
+                        selector="</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">ContactEvent</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">GET_CONTACTS</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">" </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;DynamicCommand</span><span class="MXMLDefault_Text"> type="</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">UpdateContactCommand</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">" 
+                        selector="</span><span class="MXMLString">{</span><span class="ActionScriptDefault_Text">ContactEvent</span><span class="ActionScriptOperator">.</span><span class="ActionScriptDefault_Text">UPDATE_CONTACT</span><span class="MXMLString">}</span><span class="MXMLDefault_Text">"  </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComment">&lt;!--</span><span class="MXMLComment"> Domain </span><span class="MXMLComment">--&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;domain:ContactDomain</span><span class="MXMLDefault_Text"> </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComment">&lt;!--</span><span class="MXMLComment"> PM </span><span class="MXMLComment">--&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;presentation:ContactListPM</span><span class="MXMLDefault_Text"> </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;presentation:ContactFormPM</span><span class="MXMLDefault_Text"> </span><span class="MXMLComponent_Tag">/&gt;</span>
+        <span class="MXMLComponent_Tag">&lt;presentation:MessageBoardPM</span><span class="MXMLDefault_Text"> </span><span class="MXMLComponent_Tag">/&gt;</span>
+    <span class="MXMLSpecial_Tag">&lt;/fx:Declarations&gt;</span>
+<span class="MXMLComponent_Tag">&lt;/Objects&gt;</span></pre></body>
+</html>

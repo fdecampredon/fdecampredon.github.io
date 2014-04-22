@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source de DecoupledBidingExemple</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="libs">
+			<node label="observer-1-1.13.swc" url="source/libs/observer-1-1.13.swc"/>
+			<node label="parsley-flex4-2.4.M1.swc" url="source/libs/parsley-flex4-2.4.M1.swc"/>
+			<node label="spicelib-flex-2.4.M1.swc" url="source/libs/spicelib-flex-2.4.M1.swc"/>
+		</node>
+		<node label="src">
+			<node icon="packageIcon" label="com.deCampredon.sampleContact" expanded="true">
+				<node icon="mxmlIcon" label="Configuration.mxml" url="source/com/deCampredon/sampleContact/Configuration.mxml.html"/>
+			</node>
+			<node icon="packageIcon" label="com.deCampredon.sampleContact.controls.commands" expanded="true">
+				<node icon="actionScriptIcon" label="GetContactsCommand.as" url="source/com/deCampredon/sampleContact/controls/commands/GetContactsCommand.as.html"/>
+				<node icon="actionScriptIcon" label="UpdateContactCommand.as" url="source/com/deCampredon/sampleContact/controls/commands/UpdateContactCommand.as.html"/>
+			</node>
+			<node icon="packageIcon" label="com.deCampredon.sampleContact.controls.events" expanded="true">
+				<node icon="actionScriptIcon" label="ContactEvent.as" url="source/com/deCampredon/sampleContact/controls/events/ContactEvent.as.html"/>
+			</node>
+			<node icon="packageIcon" label="com.deCampredon.sampleContact.domain" expanded="true">
+				<node icon="actionScriptIcon" label="ContactDomain.as" url="source/com/deCampredon/sampleContact/domain/ContactDomain.as.html"/>
+			</node>
+			<node icon="packageIcon" label="com.deCampredon.sampleContact.domain.vo" expanded="true">
+				<node icon="actionScriptIcon" label="Contact.as" url="source/com/deCampredon/sampleContact/domain/vo/Contact.as.html"/>
+			</node>
+			<node icon="packageIcon" label="com.deCampredon.sampleContact.presentation" expanded="true">
+				<node icon="mxmlIcon" label="ContactForm.mxml" url="source/com/deCampredon/sampleContact/presentation/ContactForm.mxml.html"/>
+				<node icon="actionScriptIcon" label="ContactFormPM.as" url="source/com/deCampredon/sampleContact/presentation/ContactFormPM.as.html"/>
+				<node icon="actionScriptIcon" label="ContactListPM.as" url="source/com/deCampredon/sampleContact/presentation/ContactListPM.as.html"/>
+				<node icon="mxmlIcon" label="ContactListView.mxml" url="source/com/deCampredon/sampleContact/presentation/ContactListView.mxml.html"/>
+				<node icon="mxmlIcon" label="MessageBoard.mxml" url="source/com/deCampredon/sampleContact/presentation/MessageBoard.mxml.html"/>
+				<node icon="actionScriptIcon" label="MessageBoardPM.as" url="source/com/deCampredon/sampleContact/presentation/MessageBoardPM.as.html"/>
+			</node>
+			<node icon="packageIcon" label="com.deCampredon.sampleContact.services" expanded="true">
+				<node icon="actionScriptIcon" label="ContactService.as" url="source/com/deCampredon/sampleContact/services/ContactService.as.html"/>
+			</node>
+			<node icon="mxmlAppIcon" selected="true" label="DecoupledBidingExemple.mxml" url="source/DecoupledBidingExemple.mxml.html"/>
+		</node>
+	</nodes>
+	<zipfile label="Télécharger la source (ZIP, 914 ko)" url="DecoupledBidingExemple.zip">
+	</zipfile>
+	<sdklink label="Télécharger le SDK Flex " url="http://www.adobe.com/go/flex4_sdk_download_fr_FR">
+	</sdklink>
+</index>

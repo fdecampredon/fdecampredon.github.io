@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+	<title>Source de AdvancedSparkDatagridTest</title>
+	<nodes>
+		<node label="html-template">
+			<node label="history">
+				<node icon="cssIcon" label="history.css" url="source/html-template/history/history.css.html"/>
+				<node label="history.js" url="source/html-template/history/history.js.txt"/>
+				<node icon="htmlIcon" label="historyFrame.html" url="source/html-template/history/historyFrame.html"/>
+			</node>
+			<node icon="htmlIcon" label="index.template.html" url="source/html-template/index.template.html"/>
+			<node icon="swfIcon" label="playerProductInstall.swf" url="source/html-template/playerProductInstall.swf"/>
+			<node label="swfobject.js" url="source/html-template/swfobject.js.txt"/>
+		</node>
+		<node label="libs">
+		</node>
+		<node label="src">
+			<node icon="mxmlIcon" label="FilterDataGridSample.mxml" url="source/FilterDataGridSample.mxml.html"/>
+			<node icon="mxmlAppIcon" selected="true" label="GroupingSample.mxml" url="source/GroupingSample.mxml.html"/>
+			<node icon="mxmlIcon" label="MultiSortDatagridSample.mxml" url="source/MultiSortDatagridSample.mxml.html"/>
+		</node>
+	</nodes>
+	<zipfile label="Télécharger la source (ZIP, 23 ko)" url="AdvancedSparkDatagridTest.zip">
+	</zipfile>
+	<sdklink label="Télécharger le SDK Flex " url="http://www.adobe.com/go/flex4_sdk_download_fr_FR">
+	</sdklink>
+</index>
