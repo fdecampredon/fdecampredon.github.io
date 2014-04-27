@@ -14,31 +14,89 @@
 
     </head>
     <body>
-
-        <div class="site">
-          <div class="header">
-            <h1 class="title"><a href="/">{{ site.name }}</a></h1>
-            <a class="extra" href="/">home</a>
-          </div>
-
-          {{ content }}
-
-          <div class="footer">
-            <div class="contact">
-              <p>
-                Your Name<br />
-                What You Are<br />
-                you@example.com
-              </p>
+        <header class="site-header">
+            <div class="header-wrapper">
+                <h1>
+                    <a href="/">{{ site.name }}</a>
+                </h1>
+                <h2>Web developer and French.</h2>
+                
             </div>
-            <div class="contact">
-              <p>
-                <a href="https://github.com/yourusername">github.com/yourusername</a><br />
-                <a href="https://twitter.com/yourusername">twitter.com/yourusername</a><br />
-              </p>
+        </header>
+        
+        <div class="site-content"> 
+            <div class="content"> 
+                {{ content }} 
+                <menu class="pagination">
+                    {% if paginator.total_pages >= 2 %}
+                        {% if paginator.previous_page %}
+                            <a href="/page/{{ paginator.previous_page }}/" class="previous">Previous</a>
+                        {% else %}
+                            <span class="previous">Previous</span>
+                        {% endif %}
+
+                        {% for i in (1..paginator.total_pages)  %}
+                             <a href="/page/{{ i }}/" class="previous">{{i}}</a>
+                        {% endfor %}
+
+
+                        {% if paginator.next_page %}
+                            <a href="/page{{ paginator.next_page }}" class="next">Next</a>
+                        {% else %}
+                            <span class="next ">Next</span>
+                        {% endif %}
+                    {% endif %}
+                </menu>
             </div>
-          </div>
+            <aside class="side-bar"> 
+                <section class="about-me">
+                    <h2>About:</h2>
+                    <p>
+                        My name is François de Campredon, a web developer working at <a href="http://kapit.fr/">Kap IT</a> Paris.<br />
+                        You can contact me by <a href="mailto:francois.de.campredon@gmail.com">email</a>, or through my social network accounts.
+                    </p>
+                </section>
+                <section class="social">
+                    <h2>Follows:</h2>
+                    <ul class="icon-list">
+                        <li>
+                            <a href="/feed/">
+                                <span class="social-icon-rss" ></span>
+                                RSS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://github.com/fdecampredon">
+                                <span class="social-icon-github" ></span>
+                                Github
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/fdecampredon">
+                                <span class="social-icon-twitter" ></span>
+                                Twitter
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/in/fdecampredon">
+                                <span class="social-icon-linkedin" ></span>
+                                LinkedIn
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <menu class="categories">
+                    <h2>Categories</h2>
+                    <ul id="categories">
+                    {% for category in site.categories %}
+                        <li><a href="/category/{{ category | first }}/">{{ category | first }}</a></li>
+                    {% endfor %}
+                    </ul>
+                </menu>
+            </aside>
         </div>
-
+        <footer class="site-footer">
+            <p class="copyright"> Copyright © 2014 François de Campredon </p>
+        </footer>
     </body>
 </html>
