@@ -22,7 +22,7 @@ author:
 <p>Combining <a href="http://www.as3commons.org/as3-commons-bytecode/">AS3Commons bytecode</a> and <a href="http://www.spicefactory.org/parsley/">Parsley</a> can produce very interesting concepts that greatly help in developing Flex application.</p>
 <p>Playing a little with this 2 libraries, I found an interesting way of replacing configuration file  when building a Parsley context :</p>
 <p>By searching class with an ObjectDefinition Metadata in the application loaderInfo, I automatically detect class that should be included in parsley context, and so avoid unnecessary configuration file.</p>
-#&&&#
+<!--excerpt-->
 <p>Here is a <a href="/public/ParsleyAutoConfig/HelloWorld.html">sample application</a> ( it is simply the parsley sample application with  that configuration mechanism), and here are the library <a href="/public/ParsleyAutoConfig/ParsleyAS3Common.zip">sources</a>.</p>
 <p>We first add  the AutoConfig class to the context builder : </p>
 {% highlight mxml %}
