@@ -11,7 +11,8 @@
 }
 
 html, body {
-    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -42,7 +43,11 @@ a:active,a:hover,a:focus {
 }
 
 
-
+@media only screen and (min-width: 640px) {
+    .about-me-link {
+        display: none;
+    }
+}
 
 
 /*****************************************************************************/
@@ -53,10 +58,11 @@ a:active,a:hover,a:focus {
 
 .site-header {
     border-bottom: 1px solid #ccc;
+    width: 100%;
 }
 
 .header-wrapper {
-    width: 1066px;
+    max-width: 1098px;
     margin: 0 auto;
     padding: 32px 16px; 
     box-sizing: border-box;
@@ -88,7 +94,7 @@ a:active,a:hover,a:focus {
 /*****************************************************************************/
 
 .site-content {
-    width: 1066px;
+    max-width: 1098px;
     margin: 0 auto;
 }
 
@@ -103,14 +109,42 @@ a:active,a:hover,a:focus {
 }
 
 .content {
-    width: 77%;
+    width: 75%;
     float: left;
-    box-sizing: border-box;
     border-right: 1px dotted #CCC;
-    padding-right: 36px;
+    padding-right: 12px;
     margin-top: 12px;
-    padding-bottom: 32px
+    padding-bottom: 12px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
+
+
+.pagination {
+    margin-top: 12px;
+    float: right;
+}
+
+.pagination a, .pagination .current-page {
+    display: inline-block;
+    color: #555;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.pagination a:active, .pagination a:hover, .pagination a:focus {
+    background-color: #EEE;
+    color: #F00;
+}
+
+.pagination .current-page { 
+    background-color: #33A8E5;
+    color: #FFF;
+}
+
+
 
 
 /*****************************************************************************/
@@ -120,20 +154,22 @@ a:active,a:hover,a:focus {
 /*****************************************************************************/
 
 .side-bar {
-    width: 23%;
+    width: 25%;
     float: right;
-    margin-top: 16px;
+    margin-top: 18px;
     font-size: 0.8rem;
 }
 
 .side-bar > * {
     padding-left: 12px;
     padding-top: 12px;
+    margin-bottom: 1rem;
 }
 
 .side-bar h2 {
     border-bottom: 1px dotted #ccc;
     font-size: 0.9rem;
+    margin-bottom: 0.5rem;
 }
 
 .side-bar h2 {
@@ -218,12 +254,12 @@ a:active,a:hover,a:focus {
 }
 
 .categories li:before {
-    content: "►";
+    content: "‣";
     margin-right: 6px;
     padding-left: 2px;
-    font-size: 0.4rem;
+    font-size: 1.2rem;
     position: relative;
-    bottom: 0.1rem;
+    top: 0.1rem;
     color: #33A8E5;
 }
 
@@ -238,6 +274,7 @@ a:active,a:hover,a:focus {
 .post {
 	padding : 12px 10px;
 	font-size : 0.8rem;
+    border-bottom: 1px dotted #ccc;
 }
 
 /* header */
@@ -248,12 +285,31 @@ a:active,a:hover,a:focus {
 
 .post h2 {
 	margin-bottom : 1.5rem;
+    margin-right: 100px;
 }
 
-.post h2 a{
+
+.post h2 a {
 	color : #222;
 	text-decoration: none;
-	font-size: 22px;
+	font-size: 1.3rem;
+}
+
+@media only screen and (min-width: 640px) { 
+    .post h2:before {
+        content: "∞";
+        margin-right: 4px;
+        margin-left: -4px;
+        font-size: 1rem;
+        position: relative;
+        bottom: 0.1rem;
+        color: #33A8E5;
+    }
+    
+    .post h2 {
+        padding-left: 20px;
+        text-indent: -20px;
+    }
 }
 
 .post h2 a:hover{
@@ -263,7 +319,7 @@ a:active,a:hover,a:focus {
 .post-date {
     color: #33A8E5;
     position: absolute;
-    top: 6px;
+    top: 0.5rem;
     right: 0px;
 }
 
@@ -281,6 +337,21 @@ a:active,a:hover,a:focus {
 .post-content li, .post-content ol {
 	margin-left :25px;
 	padding: 2px 0px; 
+}
+
+/* hightlight */
+.highlight {
+    margin: 6px 0px;
+}
+
+.highlight > pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    font-size: 0.8rem;
+    line-height: 1.2rem;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
 }
 
 
@@ -307,6 +378,7 @@ a.read-more:hover {
 /*****************************************************************************/
 
 .site-footer {
+    width: 100%;
     text-align: center;
     height: 50px;
     border-top: 1px solid #CCC;
@@ -320,4 +392,75 @@ a.read-more:hover {
     font-weight: bolder;
     font-size: 0.6rem;
 }
+
+/*****************************************************************************/
+/*
+/* mobile 
+/*
+/*****************************************************************************/
+
+
+/***
+ * screen that does not display the 'max-site width of the screen'
+ */
+@media only screen and (max-width: 1162px) { 
+    
+    .header-wrapper {
+        padding: 12px 12px;
+    }
+    
+    .site-header h1  {
+        font-size: 1.2rem;
+    }
+
+    .site-header h2 {
+        font-size: 1rem;
+    }
+    
+    .content {
+        width: 100%;
+        border-right: 0;
+        padding-right: 12px;
+        float: none;
+    }
+    
+    .side-bar {
+        float: none;
+        width: 100%;
+        padding-right: 12px;
+        margin-top: 48px;
+        border-top: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    
+    .post h2 {
+        margin: 0 0;
+    }
+    
+    .post h2 a {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+    
+   
+    .post-date {
+        display: block;
+        position: relative;
+        margin-bottom: 5px;
+        margin-right: 5px;
+        width: 100%;
+        text-align: right;
+    }
+    
+    .about-me-link {
+        display: block;
+        position: absolute;
+        top: 62px;
+        right: 5px;
+    }
+
+}
+
+
+
 

@@ -4,14 +4,14 @@ title: Your New Jekyll Site
 ---
 
 {% for post in site.posts %}
-<article class="post">
-    <header>
-        <h2> <a href="{{ post.url }}">{{ post.title }}</a></h2>
-        <div class="post-date">{{ post.date | date_to_string }}</div>
-    </header>
-    <section class="post-content">
-    {{ post.excerpt }}
-    </section>
-    <a class="read-more" href="{{ post.url }}">Read More...</a>
-</article>
+    <article class="post">
+        <header>
+            <h2> <a href="{{ post.url }}">{{ post.title }}</a></h2>
+            <div class="post-date">{{ post.date | date_to_string }}</div>
+        </header>
+        <section class="post-content">
+            {{ post.excerpt }}
+        </section>
+        <a class="read-more" href="{{ post.url }}">Read More...</a>
+    </article>
 {% endfor %}
