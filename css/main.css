@@ -234,32 +234,6 @@ a:active,a:hover,a:focus {
 
 
 
-/* categories */
-
-.categories li {
-    list-style: none;
-	border-bottom: 1px dashed #CCC;
-    margin-right: 12px;
-}
-
-.categories li a {
-	display : inline-block;
-	padding : 0.2rem;
-    text-transform:capitalize;
-}
-
-.categories li:before {
-    content: "‣";
-    margin-right: 6px;
-    padding-left: 2px;
-    font-size: 1.2rem;
-    position: relative;
-    top: 0.1rem;
-    color: #33A8E5;
-}
-
-
-
 /*****************************************************************************/
 /*
 /* post content
