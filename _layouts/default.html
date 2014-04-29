@@ -83,7 +83,7 @@
                 <section class="latest-post">
                     <h2>Latest posts:</h2>
                     <ul>  
-                        {% for post in site.posts limit:5 %}  
+                        {% for post in site.posts limit:10 %}  
                            <li>  
                                <a href="{{ post.url }}">{{ post.title }}</a>
                            </li>  
