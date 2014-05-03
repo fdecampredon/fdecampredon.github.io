@@ -52,12 +52,11 @@ a:active,a:hover,a:focus {
 
 .site-header {
     border-bottom: 1px solid #ccc;
-    background-color: #F7FBFF;
     width: 100%;
 }
 
 .header-wrapper {
-    max-width: 1098px;
+    max-width: 968px;
     margin: 0 auto;
     padding: 32px 16px; 
     box-sizing: border-box;
@@ -89,7 +88,7 @@ a:active,a:hover,a:focus {
 /*****************************************************************************/
 
 .site-content {
-    max-width: 1098px;
+    max-width: 968px;
     margin: 0 auto;
 }
 
@@ -206,7 +205,7 @@ a:active,a:hover,a:focus {
 }
 
 [class^="social-icon-"] {
-    width: 16px;
+    width: 18px;
     height: 16px;
     background: url("images/social-icons.png") no-repeat;
     display: inline-block;
@@ -229,7 +228,7 @@ a:active,a:hover,a:focus {
 }
 
 .social-icon-linkedin {
-    background-position: 0px;
+    background-position: 1px;
 }
 
 
@@ -397,7 +396,7 @@ a.read-more:hover {
 /***
  * screen that does not display the 'max-site width of the screen'
  */
-@media only screen and (max-width: 1162px) { 
+@media only screen and (max-width: 1032px) { 
     
     .header-wrapper {
         padding: 12px 12px;
@@ -459,7 +458,7 @@ a.read-more:hover {
 }
 
 
-@media only screen and (min-width: 1163px) {
+@media only screen and (min-width: 1033px) {
     .about-me-link {
         display: none;
     }
